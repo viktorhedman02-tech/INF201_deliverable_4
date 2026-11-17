@@ -4,8 +4,11 @@ class Temperature:
     def __init__(self, value: float, unit: str) -> None:
         self._value = value
         self._unit = unit
-        #value og unit er betyr at du ikke kan endre dem utenfor klassen 
-        #
+        #at value og unit er read-only attributes betyr at du ikke kan endre dem utenfor klassen 
+        # at unit er case-insensitive betyr at C, F og K er store bokstaver. 
+        if unit not in ["C", "F", "K"] or self.to_kelvin < 0:
+            raise ValueError
+    
     @property
     def value(self):
         return self._value
@@ -16,22 +19,25 @@ class Temperature:
 
     def to_celsius(self) -> float:
         """"""
-        C.self.unit = K.self.unit - 273.15
+        if self._unit == "K":
+            return self._value - 273.15
+        if self._unit == "F":
+            return (self._value - 32)*(5/9) 
 
 
 
-        def to_fahrenheit(self) -> float:
+    def to_fahrenheit(self) -> float:
+        """"""
         
-        """"""
-        def to_kelvin(self) -> float:
-        """"""
-
-        def convert_to(self, target_unit: str) -> Temperature:
+    def to_kelvin(self) -> float:
         """"""
 
-        def __repr__(self) -> str:
+    def convert_to(self, target_unit: str) -> Temperature:
         """"""
 
-        def __str__(self) -> str:
+    def __repr__(self) -> str:
+        """"""
+
+    def __str__(self) -> str:
         """"""
         
