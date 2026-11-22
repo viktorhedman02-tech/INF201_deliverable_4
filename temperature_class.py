@@ -22,21 +22,21 @@ class Temperature:
         if self._unit == "K":
             return self._value - 273.15
         if self._unit == "F":
-            return (self._value - 32)*(5/9) 
+            return (self._value - 32) * (5/9) 
 
     def to_fahrenheit(self) -> float:
         """"""
         if self.unit == "C":
-            return self.value * (9/5) + 32
+            return (self.value * (9/5)) + 32
         if self.unit == "K":
-            return (self.value - 273.15) * (9/5) + 32
+            return ((self.value - 273.15) * (9/5)) + 32
         
     def to_kelvin(self) -> float:
         """"""
         if self.unit == "C":
             return self.value + 273.15
         if self.unit == "F":
-            return (self.value - 32) * (5/9) + 273.15
+            return ((self.value - 32) * (5/9)) + 273.15
 
     def convert_to(self, target_unit: str) -> Temperature:
         """"""
