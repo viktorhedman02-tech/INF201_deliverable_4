@@ -40,6 +40,8 @@ class Temperature:
 
     def convert_to(self, target_unit: str) -> Temperature:
         """"""
+        #Sjekke hvilken unit du har. Target unit er enheten man konverterer til.
+        #Bruk de andre funksjonene du har. 
 
     def __repr__(self) -> str:
         """"""
@@ -47,5 +49,22 @@ class Temperature:
 
     def __str__(self) -> str:
         """"""
-        return f"{self._value}"
+        return f"{self._value}°{self._unit}"
+
+    def __eq__(self, other: object) -> bool: #isinstance sjekker du om begge objekter er temperaturobjekt. 
+        """"""
+        #Hvis en eller begge ikke er temperaturobjekt retunerer du NotImplemented
+        #Python forstår at other er på andre siden
+        if not isinstance(other, ):
+            return NotImplemented
+        return self.to_kelvin(self) == other.to_kelvin(self)
+
+    def __lt__(self, other: object) -> bool: #isinstance sjekker du om begge objekter er temperaturobjekt. 
+        """"""   
+        if not isinstance(other, ):
+            return NotImplemented
+        return self.to_kelvin(self) < other.to_kelvin(self)
+
+    
+
         
