@@ -101,5 +101,5 @@ class Temperature:
         return not(self == other) and self.to_kelvin() >= other.to_kelvin()
 
     
-
+# https://www.w3schools.com/python/ref_math_isclose.asp#:~:text=The%20math.isclose%20%28%29%20method%20checks%20whether%20two%20values,tolerance%2C%20to%20see%20if%20the%20values%20are%20close.
         
