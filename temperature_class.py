@@ -42,6 +42,18 @@ class Temperature:
 
     def convert_to(self, target_unit: str) -> Temperature:
         """"""
+        if target_unit == "C":
+            return Temperature(self.to_celsius(), "C")
+        #Instance er at du lager et nytt objekt av den klassen
+        
+        if target_unit == "F":
+            return Temperature(self.to_fahrenheit(), "F")
+        
+        if target_unit == "K":
+            return Temperature(self.to_kelvin(), "K")
+        
+        if target_unit not in ["C", "F", "K"]:
+            raise ValueError
         #Sjekke hvilken unit du har. Target unit er enheten man konverterer til.
         #Bruk de andre funksjonene du har. 
 
