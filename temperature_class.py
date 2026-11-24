@@ -1,4 +1,6 @@
 
+import math
+
 class Temperature:
     """"""
     def __init__(self, value: float, unit: str) -> None:
@@ -55,15 +57,36 @@ class Temperature:
         """"""
         #Hvis en eller begge ikke er temperaturobjekt retunerer du NotImplemented
         #Python forstår at other er på andre siden
-        if not isinstance(other, ):
+        if not isinstance(other, Temperature): #Sjekker om other er en temperature
             return NotImplemented
-        return self.to_kelvin(self) == other.to_kelvin(self)
+        return math.isclose(self.to_kelvin(), other.to_kelvin(), rel_tol = 1e-09)
+        #Math isclose trenger jeg kun for ==
 
-    def __lt__(self, other: object) -> bool: #isinstance sjekker du om begge objekter er temperaturobjekt. 
-        """"""   
-        if not isinstance(other, ):
+    def __lt__(self, other: object) -> bool: 
+        #isinstance sjekker du om begge objekter er temperaturobjekt. 
+        """oioi iho"""   
+        if not isinstance(other, Temperature):
             return NotImplemented
-        return self.to_kelvin(self) < other.to_kelvin(self)
+        return not(self == other) and self.to_kelvin() < other.to_kelvin()
+        #Vi skriv not(self == other) slik at vi får brukt toleransen på 1e-09. 
+
+    def __le__(self, other: object) -> bool: #isinstance sjekker du om begge objekter er temperaturobjekt. 
+        """"""   
+        if not isinstance(other, Temperature):
+            return NotImplemented
+        return not(self == other) and self.to_kelvin() <= other.to_kelvin()
+
+    def __gt__(self, other: object) -> bool: 
+        """"""   
+        if not isinstance(other, Temperature):
+            return NotImplemented
+        return not(self == other) and self.to_kelvin() > other.to_kelvin()
+    
+    def __ge__(self, other: object) -> bool: 
+        """"""   
+        if not isinstance(other, Temperature):
+            return NotImplemented
+        return not(self == other) and self.to_kelvin() >= other.to_kelvin()
 
     
 
