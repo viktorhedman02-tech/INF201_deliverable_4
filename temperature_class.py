@@ -43,7 +43,9 @@ class Temperature:
 
     def __repr__(self) -> str:
         """"""
+        return f"Temperature({self._value},{self._unit})"
 
     def __str__(self) -> str:
         """"""
+        return f"{self._value}"
         
