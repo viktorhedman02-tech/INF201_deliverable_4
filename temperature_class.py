@@ -3,24 +3,31 @@ import math
 
 class Temperature:
     """"""
-    def __init__(self, value: float, unit: str) -> None:
-        self._value = value
-        self._unit = unit
+    def __init__(self, value: float, unit: str = "C") -> None:
+        if not isinstance(unit, str):
+            raise ValueError("The unit must be a string")
+        normalized_unit = unit.upper()
+        if normalized_unit not in ("C", "F", "K"):
+            raise ValueError(f"The unit is invalid and the unit should be 'C', 'F' or 'K'.")
+        self._value = float(value)
+        self._unit = normalized_unit
         #at value og unit er read-only attributes betyr at du ikke kan endre dem utenfor klassen 
         # at unit er case-insensitive betyr at C, F og K er store bokstaver. 
-        if unit not in ["C", "F", "K"] or self.to_kelvin < 0:
-            raise ValueError
+        if self.to_kelvin() < 0:
+            raise ValueError("Temperature cannot be lower than 0 K")
     
     @property
-    def value(self):
+    def value(self) -> float:
         return self._value
 
     @property
-    def unit(self):
+    def unit(self) -> str:
             return self._unit
 
     def to_celsius(self) -> float:
         """"""
+        if self._unit == "C":
+            return self._value
         if self._unit == "K":
             return self._value - 273.15
         if self._unit == "F":
@@ -28,6 +35,8 @@ class Temperature:
 
     def to_fahrenheit(self) -> float:
         """"""
+        if self._unit == "F":
+            return self._value
         if self.unit == "C":
             return (self.value * (9/5)) + 32
         if self.unit == "K":
@@ -35,21 +44,27 @@ class Temperature:
         
     def to_kelvin(self) -> float:
         """"""
+        if self._unit == "K":
+            return self._value
         if self.unit == "C":
             return self.value + 273.15
         if self.unit == "F":
             return ((self.value - 32) * (5/9)) + 273.15
 
-    def convert_to(self, target_unit: str) -> Temperature:
+    def convert_to(self, target_unit: str) -> "Temperature":
         """"""
-        if target_unit == "C":
+        if not isinstance(target_unit, str):
+            raise ValueError("The target unit must be a string")
+
+        target = target_unit.upper()
+        if target == "C":
             return Temperature(self.to_celsius(), "C")
         #Instance er at du lager et nytt objekt av den klassen
         
-        if target_unit == "F":
+        if target == "F":
             return Temperature(self.to_fahrenheit(), "F")
         
-        if target_unit == "K":
+        if target == "K":
             return Temperature(self.to_kelvin(), "K")
         
         if target_unit not in ["C", "F", "K"]:
