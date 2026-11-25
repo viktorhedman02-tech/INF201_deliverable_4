@@ -1,6 +1,13 @@
 import pytest
 from temperature_class import Temperature
 
+
+#Se lecture 11 for å gjøre tester. Bruk def() og assert. Jeg tror du kan bruke 
+# if :
+# raise ValueError. 
+#Du vet hvilke svar du skal få når koden funker.  
+# I jupyter file bruker du utropstegn ! for å kjøre testene. Jupyter fila vil vise output.  
+
 def default_unit():
     t = Temperature(25)
     assert t.value == 25
