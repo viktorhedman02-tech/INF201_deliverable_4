@@ -5,7 +5,12 @@ class Fraction:
     '''The class represent a fraction'''
 
     def __init__(self, numerator: int = 1, denominator: int = 1):
-
+        ''' The iniseliser function 
+        
+        Args:
+            numerator (int): 
+            denomenator (int): 
+        '''
         if not isinstance(numerator, int) or not isinstance(denominator, int):
             raise ValueError('The numerator and denominator must be integers.')
 
@@ -18,15 +23,12 @@ class Fraction:
         self.numerator = numerator
         self.denominator = denominator
 
-    def __repr__(self):
-        pass
-
     def __str__(self):
         """A string represantaation for printing"""
         return f'{self.numerator}/{self.denominator}'
 
     def __add__(self, other: Fraction) -> Fraction:
-        ''' '''
+        ''' The add metode defining the sumation '''
         if isinstance(other, int):
             other = Fraction(other, 1)
         if not isinstance(other, Fraction):
@@ -119,7 +121,7 @@ s=Fraction(1, 2)
 
 t=Fraction(1, 3)
 
-n=2
+n=3
 f=1.2
 
 print(s)
@@ -131,6 +133,8 @@ print(s+t)
 print(s*t)
 
 print(s/t)
+
+print(s + n)
 
 print(s != t)
 print(s == t)
