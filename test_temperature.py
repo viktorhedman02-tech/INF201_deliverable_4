@@ -7,6 +7,11 @@ from temperature_class import Temperature
 # raise ValueError. 
 #Du vet hvilke svar du skal få når koden funker.  
 # I jupyter file bruker du utropstegn ! for å kjøre testene. Jupyter fila vil vise output.  
+#Trenger vi å bruke pytest.approx() i koden?
+#Skal koden vi leverer inn fungere 100 prosent og være ferdig testet før vi leverer den inn?
+#Skal testene vi legger inni jupyter fungere 100 prosent?
+#Er default unit celsius eller en annen enhet?
+
 
 def default_unit():
     t = Temperature(25)
