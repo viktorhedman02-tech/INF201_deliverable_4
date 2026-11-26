@@ -24,9 +24,16 @@ class Fraction:
         if denominator < 0:
             raise ValueError('The denominator must be posetive')
 
+        #Devisor to surten the fractions
+        devi=math.gcd(abs(numerator), denominator)
+
         #Define the denominator and numenator for the class
-        self.numerator = numerator
-        self.denominator = denominator
+        self.numerator = numerator // devi
+        self.denominator = denominator // devi
+
+    def __repr__(self):
+        """A reepresantation of the Fraction"""
+        return f'Fraction({self.numerator}, {self.denominator})'
 
     def __str__(self):
         """A string represantaation for printing"""
@@ -47,6 +54,21 @@ class Fraction:
             return Fraction(self.numerator + other.numerator, self.denominator)
         else:
             return Fraction(self.numerator * other.denominator + self.denominator * other.numerator, self.denominator * other.denominator)
+
+    def __sub__(self, other: Fraction) -> Fraction:
+            ''' The add metode defining the sumation of the fraction'''
+            #Cheks if the other value are and integer and give it a class
+            if isinstance(other, int):
+                other = Fraction(other, 1)
+            #Cheks if the other value is a class and return a NotImplementedError
+            if not isinstance(other, Fraction):
+                return NotImplementedError
+    
+            #Chek if the denominators are the same and returns the apropriat new fraction
+            if self.denominator == other.denominator:
+                return Fraction(self.numerator - other.numerator, self.denominator)
+            else:
+                return Fraction(self.numerator * other.denominator - self.denominator * other.numerator, self.denominator * other.denominator)
         
 
     def __mul__(self, other: Fraction) -> Fraction:

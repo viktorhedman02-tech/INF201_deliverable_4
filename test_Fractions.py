@@ -27,7 +27,7 @@ def test_init_error(num, den, expected):
     with pytest.raises(expected):
         Fraction(num, den)
 
-def test_add() -> None:
+def test_add_sub() -> None:
     '''A Test that cheks the add function using assertions'''
 
     #Calculates diffrent sumations betweb diffrent fractions and values
@@ -43,6 +43,19 @@ def test_add() -> None:
     #Test if the correct error is reased
     assert resoult4 == NotImplementedError
 
+    resoult1 = Fraction(2, 3) - Fraction(1, 2)
+    resoult2 = Fraction(1, 2) - Fraction(1, 2)
+    resoult3 = Fraction(1, 2) - 3
+    resoult4 = Fraction(1, 2) - 1.2
+
+    # Test if the resualts gives egspexted values and resualt
+    assert resoult1 == Fraction(1, 6)
+    assert resoult2 == Fraction(0, 2)
+    assert resoult3 == Fraction(-5, 2)
+    #Test if the correct error is reased
+    assert resoult4 == NotImplementedError
+
+
 def test_mul() -> None:
     '''A test that checs the mul function usins assertions'''
 
@@ -55,18 +68,20 @@ def test_mul() -> None:
 def test_div() -> None:
     '''A test that checs the div function usins assertions'''
 
-    #
+    #Test if the metod returns the correct divisions 
     assert Fraction(1, 2) / Fraction(2, 3) == Fraction(3, 4)
     assert Fraction(1, 2) / 3 == Fraction(1, 6)
-    #
+    ##Test if the correct error is reast for a division between a fraction and a float
     assert Fraction(1, 2) / 1.2 == NotImplementedError
 
-def test_str() -> None:
+def test_str_repr() -> None:
     '''A test that checs the str function usins assertions'''
 
     #Test if the fractions gives the right strings
     assert str(Fraction(1, 2)) == "1/2"
-    assert str(Fraction(6, 4)) == "6/4"
+    assert str(Fraction(6, 4)) == "3/2"
+    assert repr(Fraction(1, 2)) == "Fraction(1, 2)"
+    assert repr(Fraction(6, 4)) == "Fraction(3, 2)"
 
 
 def test_bol() -> None:
