@@ -85,5 +85,36 @@ def test_conversion(c, f, k):
     assert t_k.convert_to("F").value == pytest.approx(f)
 #Du må teste par C = F, F = K .
 
+def test_roundtrip_conversion():
+    original = Temperature(25, "C")
+    conversion = original.convert_to("F").convert_to("C")
+
+    assert conversion.unit == "C"
+    assert conversion == original 
+
+def test_cross_unit_comparisons():
+    c_0 = Temperature(0, "C")
+    f_32 = Temperature(32, "F")
+    k_warm = Temperature(303.15, "K")  # 30 °C
+
+    # Equal temperatures in different units
+    assert c_0 == f_32
+    assert c_0 <= f_32
+    assert c_0 >= f_32
+    assert not (c_0 < f_32)
+    assert not (c_0 > f_32)
+
+    # Ordered temperatures in different units
+    assert c_0 < k_warm
+    assert c_0 <= k_warm
+    assert k_warm > c_0
+    assert k_warm >= c_0
+    assert c_0 != k_warm
+
+def test_formatting():
+    t = Temperature(30, "C")
+
+    assert str(t) == "30.0°C"
+    assert repr(t) == "Temperature(30.0,'C')"
 
 
