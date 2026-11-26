@@ -25,7 +25,7 @@ from temperature_class import Temperature
 
 #Skriv i notebooken din at koden din bare godtar store bokstaver. 
 
-def default_unit():
+def test_default_unit():
     t = Temperature(25)
     assert t.value == 25
     assert t.unit == "C"
@@ -39,35 +39,49 @@ def test_case_insensitive_units(unit):
     #Du bruker pytest.paramterize når du vil teste funksjonen med ulike typer input. 
 
 
-def read_only_behaviours():
+def test_read_only_behaviours():
     t = Temperature(25, "C")
     with pytest.raises(AttributeError):
         t.value = 30
     with pytest.raises(AttributeError):
         t.unit = "K"
 
-def invalid_unit():
+def test_invalid_unit():
     with pytest.raises(ValueError):
         t = Temperature(30, "b")
     with pytest.raises(ValueError):
         t = Temperature(100, "f")
 
 
-def below_absolute_zero():
+def test_below_absolute_zero():
     with pytest.raises(ValueError):
-        t = Temperature(-1, "unit")
+        t = Temperature(-1, "K")
+    with pytest.raises(ValueError):
+        t = Temperature(-462, "F")
+    with pytest.raises(ValueError):
+        t = Temperature(-276, "C")
 
 
 @pytest.mark.parametrize("c, f, k", 
-                         [[-273.15, −459.67, 0],
-                          [],
-                          [],
-                          [],
-                          [],
+                         [[-273.15, -459, 0],
+                          [-40, -40, 233.15],
+                          [0, 32, 273.15],
+                          [37, 98.6, 310.15],
+                          [100, 212, 373.15]
                           ])
-                         ])
+def test_conversion(c, f, k):
+    t1 = Temperature(c, "C")
+    t2 = Temperature(k, "K")
+    t3 = Temperature(f, "F")
+    assert t1 == pytest.approx(t2)
+    assert t2 == pytest.approx(t3)
+    assert t3 == pytest.approx(t1)
+    
 
-def conversion(c, f, k):
-      assert 
-
+    
 #Du må teste par C = F, F = K .
+
+temp = Temperature(-273.15, "C")
+temp = Temperature(-459, "F")
+temp = Temperature(0, "K")
+
