@@ -1,7 +1,7 @@
 from Fractions import Fraction
 import pytest 
 
-def test_init():
+def test_init() -> None:
     '''A test that uses assert to chek if the init function gives the right values'''
     frac = Fraction(1, 2)
     assert frac.numerator == 1
@@ -20,7 +20,7 @@ def test_init():
                          (1.2, 2.3, ValueError)]#A Paramiter for cheking if both the denominator and numerator are folats a valur error is raised
 )
 
-def test_init_error(num, den, expected):
+def test_init_error(num, den, expected) -> None:
     '''A test that uses pytest.raises and the pytest.mark.parametrize() from erlyar to chek
     if the if statments and erorr raises work.
     '''
