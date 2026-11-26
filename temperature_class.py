@@ -1,1 +1,158 @@
- 
+
+import math
+
+
+class Temperature:
+    """
+    This temperature class supports Celsius, Fahrenheit and Kelvin 
+    and accepts both uppercase and lowercase of C, F and K units.
+    If the temperature is below 0 k (absolute zsero) or the 
+    unit is not 'C', 'F', 'K', 'c', 'f' or 'k', a ValueError will be raised.
+    A tolerance of 1e-9 is used when the floating temperature values are compared.
+    """ 
+
+    def __init__(self, value: float, unit: str = "C") -> None:
+        if unit not in ("C", "F", "K", "c", "f", "k"):
+            raise ValueError(f"Invalid unit. The unit must be 'C', 'F' or 'K'.")
+
+        self._value = float(value)
+        self._unit = unit
+        #value and unit are read-only attributes which means that they can not be changed outside the class. 
+        
+        if self.to_kelvin() < -1e-9:
+            #Raise value error for temperatures below 0 K and allows tiny floating-point rounding near 0 k
+            raise ValueError("Temperature cannot be lower than 0 K")
+
+    #Value and unit are read only properties that are decorated with @property
+    @property
+    def value(self) -> float:
+        return self._value
+
+
+    @property
+    def unit(self) -> str:
+            return self._unit
+
+
+    def to_celsius(self) -> float:
+        """
+        This conversion method converts 
+        a Fahrenheit temperature or a Kelvin temperature to Celsius
+        """
+        if self._unit == "C" or self._unit == "c":
+            return self._value
+        if self._unit == "K" or self._unit == "k":
+            return self._value - 273.15
+        if self._unit == "F" or self._unit == "f":
+            return (self._value - 32) * (5/9) 
+
+
+    def to_fahrenheit(self) -> float:
+        """This conversion method converts Celsius or Kelvin to Fahrenheit."""
+        if self._unit == "F" or self._unit == "f":
+            return self._value
+        if self.unit == "C" or self._unit == "c":
+            return (self.value * (9/5)) + 32
+        if self.unit == "K" or self._unit == "k":
+            return ((self.value - 273.15) * (9/5)) + 32
+
+        
+    def to_kelvin(self) -> float:
+        """This conversion method converts Celsius or Fahrenheit to kelvin."""
+        if self._unit == "K" or self._unit == "k":
+            return self._value
+        if self.unit == "C" or self._unit == "c":
+            return self.value + 273.15
+        if self.unit == "F" or self._unit == "f":
+            return ((self.value - 32) * (5/9)) + 273.15
+
+
+    def convert_to(self, target_unit: str) -> "Temperature":
+        """
+        This function can convert a temperature for example celsius or fahrenheit 
+        to a chosen target-unit.
+        """
+
+        if target_unit not in ("C", "F", "K", "c", "f", "k"):
+            #A value error is raised if target_unit is invalid
+            raise ValueError(f"Invalid target_unit")
+
+        #A new Temperature instance is returned for each of the specific target unit. 
+        
+        if target_unit == "C":
+            return Temperature(self.to_celsius(), "C")
+        elif target_unit == "c":
+            return Temperature(self.to_celsius(), "c")
+        
+        elif target_unit == "F":
+            return Temperature(self.to_fahrenheit(), "F")
+        elif target_unit == "f":
+            return Temperature(self.to_fahrenheit(), "f")
+        
+        elif target_unit == "K":
+            return Temperature(self.to_kelvin(), "K")
+        elif target_unit == "k":
+            return Temperature(self.to_kelvin(), "k")
+        
+        
+    def __repr__(self) -> str:
+        """Returns a representation like Temperature(30.0, 'C')"""
+        return f"Temperature({self._value},{self._unit})"
+
+
+    def __str__(self) -> str:
+        """Returns a human-readable string like 30.00 °C."""
+        return f"{self._value}°{self._unit}"
+
+    #Here we do comparisons (==, !=, <, <=, >, >=) of temperatures across different units:
+
+    def __eq__(self, other: object) -> bool: 
+        """In this method temperature values are true if 
+        Kelvin is within rel_tol = 1e-09 or abs_tol = 1e-09."""
+        # If one or both of the objects are not temperature objects, NotImplemented  will be returned 
+        if not isinstance(other, Temperature): #Check if "other" is a temperature.
+            return NotImplemented
+        #Both temperatures are converted to kelvin
+        return math.isclose(
+            self.to_kelvin(), 
+            other.to_kelvin(), 
+            rel_tol = 1e-09,
+            abs_tol = 1e-09,
+        )
+        
+
+    def __lt__(self, other: object) -> bool:  
+        """This method is for strict less than.
+         True if not equal and Kelvin is strictly less"""   
+        if not isinstance(other, Temperature):
+            return NotImplemented #If we have a non-temperature instance, we will return notimplemented. 
+        return not(self == other) and self.to_kelvin() < other.to_kelvin()
+        
+
+    def __le__(self, other: object) -> bool:
+        """This method for lass than or equal to. 
+        True if equal or Kelvin is less than or equal """   
+        if not isinstance(other, Temperature):
+            return NotImplemented
+        return (self == other) or self.to_kelvin() <= other.to_kelvin()
+        # (self == other) makes sure that two temperatures that has a difference within 1e-9
+        # are not treated as strictly colder or warmer than one another.  
+
+    def __gt__(self, other: object) -> bool: 
+        """This method is for strict greater than. True if not equal
+         and Kelvin is strictly greater. """   
+        if not isinstance(other, Temperature):
+            return NotImplemented
+        return not(self == other) and self.to_kelvin() > other.to_kelvin()
+
+
+    def __ge__(self, other: object) -> bool: 
+        """This method is for greater than or equal to. True
+        if equal or Kelvin is greater than or equal."""   
+        if not isinstance(other, Temperature):
+            return NotImplemented
+        return (self == other) or self.to_kelvin() >= other.to_kelvin()
+
+    
+# This link was used as a help for writing this code  https://www.w3schools.com/python/ref_math_isclose.asp#:~:text=The%20math.isclose%20%28%29%20method%20checks%20whether%20two%20values,tolerance%2C%20to%20see%20if%20the%20values%20are%20close.
+        
