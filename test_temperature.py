@@ -21,6 +21,7 @@ from temperature_class import Temperature
 #Du skal rette opp feil i koden før du leverer inn.
 # Det er mulig å få mindre enn 100 prosent dekning selv om koden er feilfri. 
 # Dekning er hvor mye av det som er i koden som blir testet.  
+#Jeg får ikke mer enn 0,5 poeng trekk når klassen bare godtar store bokstaver. 
 
 #Skriv i notebooken din at koden din bare godtar store bokstaver. 
 
@@ -35,10 +36,38 @@ def test_case_insensitive_units(unit):
     t = Temperature(value, unit)
     assert t.unit == unit
     assert t.value == value
+    #Du bruker pytest.paramterize når du vil teste funksjonen med ulike typer input. 
+
 
 def read_only_behaviours():
     t = Temperature(25, "C")
     with pytest.raises(AttributeError):
         t.value = 30
     with pytest.raises(AttributeError):
-        t.uniy = "K"
+        t.unit = "K"
+
+def invalid_unit():
+    with pytest.raises(ValueError):
+        t = Temperature(30, "b")
+    with pytest.raises(ValueError):
+        t = Temperature(100, "f")
+
+
+def below_absolute_zero():
+    with pytest.raises(ValueError):
+        t = Temperature(-1, "unit")
+
+
+@pytest.mark.parametrize("c, f, k", 
+                         [[-273.15, −459.67, 0],
+                          [],
+                          [],
+                          [],
+                          [],
+                          ])
+                         ])
+
+def conversion(c, f, k):
+      assert 
+
+#Du må teste par C = F, F = K .
