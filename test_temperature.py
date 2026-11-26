@@ -115,6 +115,6 @@ def test_formatting():
     t = Temperature(30, "C")
 
     assert str(t) == "30.0°C"
-    assert repr(t) == "Temperature(30.0,'C')"
+    assert repr(t) == "Temperature(30.0,C)"
 
 
