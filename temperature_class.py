@@ -2,15 +2,22 @@
 import math
 
 class Temperature:
-    """"""
+    """
+    This temperature class supports Celsius, Fahrenheit and Kelvin 
+    and accepts both uppercase and lowercase of C, F and K units.
+    If the temperature is below 0 k (absolute zsero) or the 
+    unit is not 'C', 'F', 'K', 'c', 'f' or 'k', a ValueError will raised.
+    A tolerance of 1e-9 is used when the floating temperature values are compared.
+    """ 
+
     def __init__(self, value: float, unit: str = "C") -> None:
         if unit not in ("C", "F", "K", "c", "f", "k"):
             raise ValueError(f"Invalid unit. The unit must be 'C', 'F' or 'K'.")
 
         self._value = float(value)
         self._unit = unit
-        #at value og unit er read-only attributes betyr at du ikke kan endre dem utenfor klassen 
-        # at unit er case-insensitive betyr at C, F og K er store bokstaver. 
+        #value and unit are read-only attributes which means that they can not be changed outside the class. 
+        
         if self.to_kelvin() < -1e-9:
             raise ValueError("Temperature cannot be lower than 0 K")
     
@@ -23,7 +30,10 @@ class Temperature:
             return self._unit
 
     def to_celsius(self) -> float:
-        """"""
+        """
+        This conversion method converts 
+        a Fahrenheit temperature or a Kelvin temperature to Celsius
+        """
         if self._unit == "C" or self._unit == "c":
             return self._value
         if self._unit == "K" or self._unit == "k":
@@ -32,7 +42,7 @@ class Temperature:
             return (self._value - 32) * (5/9) 
 
     def to_fahrenheit(self) -> float:
-        """"""
+        """This conversion method converts Celsius or Kelvin to Fahrenheit."""
         if self._unit == "F" or self._unit == "f":
             return self._value
         if self.unit == "C" or self._unit == "c":
@@ -41,7 +51,7 @@ class Temperature:
             return ((self.value - 273.15) * (9/5)) + 32
         
     def to_kelvin(self) -> float:
-        """"""
+        """This conversion method converts Celsius or Fahrenheit to kelvin."""
         if self._unit == "K" or self._unit == "k":
             return self._value
         if self.unit == "C" or self._unit == "c":
@@ -50,7 +60,10 @@ class Temperature:
             return ((self.value - 32) * (5/9)) + 273.15
 
     def convert_to(self, target_unit: str) -> "Temperature":
-        """"""
+        """
+        This function can convert a temperature for example celsius or fahrenheit 
+        to a chosen target-unit.
+        """
         if target_unit not in ("C", "F", "K", "c", "f", "k"):
             raise ValueError(f"Invalid target_unit")
         
