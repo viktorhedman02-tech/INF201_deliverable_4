@@ -117,4 +117,37 @@ def test_formatting():
     assert str(t) == "30.0°C"
     assert repr(t) == "Temperature(30.0,C)"
 
+def test_identity_conversion():
+    t_c = Temperature(25, "C")
+    t_f = Temperature(77, "F")
+    # Hits line 28 (to_celsius when already "C") and line 37 (to_fahrenheit when already "F")
+    assert t_c.to_celsius() == pytest.approx(25.0)
+    assert t_f.to_fahrenheit() == pytest.approx(77.0) 
+
+def test_convert_target_unit():
+    t = Temperature(20, "C")
+
+    # Hits line 55 (ValueError on invalid target_unit)
+    with pytest.raises(ValueError):
+        t.convert_to("invalid")
+    with pytest.raises(ValueError):
+        t.convert_to("f")
+
+
+def test_comparisons():
+    t = Temperature(20, "C")
+
+    # Hits line 83 (__eq__ returning NotImplemented -> evaluates to False / != is True)
+    assert (t == 20) is False
+    assert (t != 20) is True
+
+    # Hits lines 96, 103, 109, 115 (__lt__, __le__, __gt__, __ge__ -> Python raises TypeError)
+    with pytest.raises(TypeError):
+        _ = t < 20
+    with pytest.raises(TypeError):
+        _ = t <= 20
+    with pytest.raises(TypeError):
+        _ = t > 20
+    with pytest.raises(TypeError):
+        _ = t >= 20
 
