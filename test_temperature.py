@@ -63,25 +63,27 @@ def test_below_absolute_zero():
 
 
 @pytest.mark.parametrize("c, f, k", 
-                         [[-273.15, -459, 0],
+                         [[-273.15, -459.67, 0],
                           [-40, -40, 233.15],
                           [0, 32, 273.15],
                           [37, 98.6, 310.15],
                           [100, 212, 373.15]
                           ])
 def test_conversion(c, f, k):
-    t1 = Temperature(c, "C")
-    t2 = Temperature(k, "K")
-    t3 = Temperature(f, "F")
-    assert t1 == pytest.approx(t2)
-    assert t2 == pytest.approx(t3)
-    assert t3 == pytest.approx(t1)
+    t_c = Temperature(c, "C")
+    t_f = Temperature(f, "F")
+    t_k = Temperature(k, "K")
+    assert t_c == t_f
+    assert t_f == t_k
+    assert t_c == t_k
     
-
-    
+    assert t_c.convert_to("F").value == pytest.approx(f)
+    assert t_c.convert_to("K").value == pytest.approx(k)
+    assert t_f.convert_to("C").value == pytest.approx(c)
+    assert t_f.convert_to("K").value == pytest.approx(k)
+    assert t_k.convert_to("C").value == pytest.approx(c)
+    assert t_k.convert_to("F").value == pytest.approx(f)
 #Du må teste par C = F, F = K .
 
-temp = Temperature(-273.15, "C")
-temp = Temperature(-459, "F")
-temp = Temperature(0, "K")
+
 

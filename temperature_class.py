@@ -11,7 +11,7 @@ class Temperature:
         self._unit = unit
         #at value og unit er read-only attributes betyr at du ikke kan endre dem utenfor klassen 
         # at unit er case-insensitive betyr at C, F og K er store bokstaver. 
-        if self.to_kelvin() < 0:
+        if self.to_kelvin() < -1e-9:
             raise ValueError("Temperature cannot be lower than 0 K")
     
     @property
@@ -81,7 +81,12 @@ class Temperature:
         #Python forstår at other er på andre siden
         if not isinstance(other, Temperature): #Sjekker om other er en temperature
             return NotImplemented
-        return math.isclose(self.to_kelvin(), other.to_kelvin(), rel_tol = 1e-09)
+        return math.isclose(
+            self.to_kelvin(), 
+            other.to_kelvin(), 
+            rel_tol = 1e-09,
+            abs_tol = 1e-09,
+        )
         #Math isclose trenger jeg kun for ==
 
     def __lt__(self, other: object) -> bool: 
