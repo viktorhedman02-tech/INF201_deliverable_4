@@ -38,6 +38,12 @@ def test_case_insensitive_units(unit):
     assert t.value == value
     #Du bruker pytest.paramterize når du vil teste funksjonen med ulike typer input. 
 
+@pytest.mark.parametrize("target", ["c", "f", "k"])
+def test_convert_to_lowercase(target):
+    t = Temperature(25, "C")
+    converted = t.convert_to(target)
+    assert converted.unit == target 
+
 def test_read_only_behaviours():
     t = Temperature(25, "C")
     with pytest.raises(AttributeError):
@@ -83,6 +89,7 @@ def test_conversion(c, f, k):
     assert t_k.convert_to("C").value == pytest.approx(c)
     assert t_k.convert_to("F").value == pytest.approx(f)
 #Du må teste par C = F, F = K .
+
 
 def test_roundtrip_conversion():
     original = Temperature(25, "C")

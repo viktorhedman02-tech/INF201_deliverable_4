@@ -63,12 +63,12 @@ class Temperature:
         elif target_unit == "F":
             return Temperature(self.to_fahrenheit(), "F")
         elif target_unit == "f":
-            return Temperature(self.to_celsius(), "f")
+            return Temperature(self.to_fahrenheit(), "f")
         
         elif target_unit == "K":
             return Temperature(self.to_kelvin(), "K")
         elif target_unit == "k":
-            return Temperature(self.to_celsius(), "k")
+            return Temperature(self.to_kelvin(), "k")
         
         #Sjekke hvilken unit du har. Target unit er enheten man konverterer til.
         #Bruk de andre funksjonene du har. 
