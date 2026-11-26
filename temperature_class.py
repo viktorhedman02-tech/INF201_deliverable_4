@@ -4,7 +4,7 @@ import math
 class Temperature:
     """"""
     def __init__(self, value: float, unit: str = "C") -> None:
-        if unit not in ("C", "F", "K"):
+        if unit not in ("C", "F", "K", "c", "f", "k"):
             raise ValueError(f"Invalid unit. The unit must be 'C', 'F' or 'K'.")
 
         self._value = float(value)
@@ -24,45 +24,51 @@ class Temperature:
 
     def to_celsius(self) -> float:
         """"""
-        if self._unit == "C":
+        if self._unit == "C" or self._unit == "c":
             return self._value
-        if self._unit == "K":
+        if self._unit == "K" or self._unit == "k":
             return self._value - 273.15
-        if self._unit == "F":
+        if self._unit == "F" or self._unit == "f":
             return (self._value - 32) * (5/9) 
 
     def to_fahrenheit(self) -> float:
         """"""
-        if self._unit == "F":
+        if self._unit == "F" or self._unit == "f":
             return self._value
-        if self.unit == "C":
+        if self.unit == "C" or self._unit == "c":
             return (self.value * (9/5)) + 32
-        if self.unit == "K":
+        if self.unit == "K" or self._unit == "k":
             return ((self.value - 273.15) * (9/5)) + 32
         
     def to_kelvin(self) -> float:
         """"""
-        if self._unit == "K":
+        if self._unit == "K" or self._unit == "k":
             return self._value
-        if self.unit == "C":
+        if self.unit == "C" or self._unit == "c":
             return self.value + 273.15
-        if self.unit == "F":
+        if self.unit == "F" or self._unit == "f":
             return ((self.value - 32) * (5/9)) + 273.15
 
     def convert_to(self, target_unit: str) -> "Temperature":
         """"""
-        if target_unit not in ("C", "F", "K"):
+        if target_unit not in ("C", "F", "K", "c", "f", "k"):
             raise ValueError(f"Invalid target_unit")
         
         if target_unit == "C":
             return Temperature(self.to_celsius(), "C")
+        elif target_unit == "c":
+            return Temperature(self.to_celsius(), "c")
         #Instance er at du lager et nytt objekt av den klassen
         
-        if target_unit == "F":
+        elif target_unit == "F":
             return Temperature(self.to_fahrenheit(), "F")
+        elif target_unit == "f":
+            return Temperature(self.to_celsius(), "f")
         
-        if target_unit == "K":
+        elif target_unit == "K":
             return Temperature(self.to_kelvin(), "K")
+        elif target_unit == "k":
+            return Temperature(self.to_celsius(), "k")
         
         #Sjekke hvilken unit du har. Target unit er enheten man konverterer til.
         #Bruk de andre funksjonene du har. 

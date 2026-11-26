@@ -30,14 +30,13 @@ def test_default_unit():
     assert t.value == 25
     assert t.unit == "C"
 
-@pytest.mark.parametrize("unit", ["C", "F", "K"])
+@pytest.mark.parametrize("unit", ["C", "F", "K", "c", "f", "k"])
 def test_case_insensitive_units(unit):
     value = 300 if unit == "K" else 25
     t = Temperature(value, unit)
     assert t.unit == unit
     assert t.value == value
     #Du bruker pytest.paramterize når du vil teste funksjonen med ulike typer input. 
-
 
 def test_read_only_behaviours():
     t = Temperature(25, "C")
@@ -50,7 +49,7 @@ def test_invalid_unit():
     with pytest.raises(ValueError):
         t = Temperature(30, "b")
     with pytest.raises(ValueError):
-        t = Temperature(100, "f")
+        t = Temperature(100, "d")
 
 
 def test_below_absolute_zero():
@@ -131,7 +130,7 @@ def test_convert_target_unit():
     with pytest.raises(ValueError):
         t.convert_to("invalid")
     with pytest.raises(ValueError):
-        t.convert_to("f")
+        t.convert_to("d")
 
 
 def test_comparisons():
